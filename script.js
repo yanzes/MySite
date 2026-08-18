@@ -5,7 +5,7 @@
 // ===== TYPING EFFECT (HERO) =====
 const typingElement = document.getElementById('typing');
 const phrases = [
-    'Senior Data Engineer',
+    'Data Engineer',
     'Cloud Data Architect',
     'BigQuery Specialist',
     'Pipeline Builder',
@@ -283,5 +283,5 @@ initParticles();
 animateParticles();
 
 console.log('%c¡Hola! 👋', 'color: #00d4ff; font-size: 24px; font-weight: bold;');
-console.log('%cSoy Yanzes Caro - Senior Data Engineer', 'color: #7c3aed; font-size: 16px;');
+console.log('%cSoy Yanzes Caro - Data Engineer', 'color: #7c3aed; font-size: 16px;');
 console.log('%c¿Interesado? Usa el botón de WhatsApp', 'color: #94a3b8; font-size: 14px;');
