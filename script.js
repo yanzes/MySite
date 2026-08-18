@@ -134,17 +134,29 @@ const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
             entry.target.classList.add('active');
-            
-            if (entry.target.classList.contains('hero-stats') && !countersAnimated) {
-                countersAnimated = true;
-                counters.forEach(animateCounter);
-            }
         }
     });
 }, { threshold: 0.15 });
 
 reveals.forEach(el => observer.observe(el));
 
+// ===== COUNTER ANIMATION (VERSIÓN CORREGIDA) =====
+// Observer separado SOLO para los contadores del hero
+const heroStats = document.querySelector('.hero-stats');
+
+if (heroStats) {
+    const counterObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting && !countersAnimated) {
+                countersAnimated = true;
+                counters.forEach(animateCounter);
+                counterObserver.unobserve(entry.target); // Dejar de observar
+            }
+        });
+    }, { threshold: 0.3 }); // 30% visible para disparar
+
+    counterObserver.observe(heroStats);
+}
 // ===== WHATSAPP BUTTON =====
 const whatsappBtn = document.getElementById('whatsappBtn');
 
