@@ -245,7 +245,7 @@ const TRANSLATIONS = {
 };
 
 // ===== LANGUAGE MANAGER =====
-let currentLang = localStorage.getItem('lang') || 'es';
+let currentLang = 'en';
 
 function setLanguage(lang) {
     currentLang = lang;
@@ -268,11 +268,12 @@ function setLanguage(lang) {
         }
     });
     
-    // Update lang toggle UI
-    document.querySelectorAll('.lang-option').forEach(opt => {
-        opt.classList.toggle('active', opt.dataset.lang === lang);
+    // Update lang toggle UI (nuevos botones)
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.lang === lang);
     });
 }
+
 
 // ===== THEME MANAGER =====
 let currentTheme = localStorage.getItem('theme') || 'dark';
@@ -287,12 +288,13 @@ function setTheme(theme) {
 setTheme(currentTheme);
 
 // ===== LANGUAGE TOGGLE BUTTON =====
-const langToggle = document.getElementById('langToggle');
-if (langToggle) {
-    langToggle.addEventListener('click', () => {
-        setLanguage(currentLang === 'es' ? 'en' : 'es');
+const langButtons = document.querySelectorAll('.lang-btn');
+langButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+        const lang = btn.dataset.lang;
+        setLanguage(lang);
     });
-}
+});
 
 // ===== THEME TOGGLE BUTTON =====
 const themeToggle = document.getElementById('themeToggle');
@@ -332,8 +334,8 @@ setupWhatsappLink('ctaWhatsapp');
 // ===== TYPING EFFECT (HERO) =====
 const typingElement = document.getElementById('typing');
 const phrases = [
-    'Senior Data Engineer',
-    'Cloud Data Architect',
+    'Data Engineer',
+    'Cloud Data',
     'BigQuery Specialist',
     'Pipeline Builder',
     'SQL Optimizer'
@@ -625,5 +627,5 @@ if (canvas) {
 
 // ===== CONSOLE MESSAGE =====
 console.log('%c¡Hola! 👋', 'color: #00d4ff; font-size: 24px; font-weight: bold;');
-console.log('%cSoy Yanzes Caro - Senior Data Engineer', 'color: #7c3aed; font-size: 16px;');
+console.log('%cSoy Yanzes Caro - Data Engineer', 'color: #7c3aed; font-size: 16px;');
 console.log('%cPortfolio v4 - Multi-language & Theme Toggle', 'color: #94a3b8; font-size: 14px;');

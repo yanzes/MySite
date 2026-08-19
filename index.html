@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Yanzes Caro Patiño | Senior Data Engineer</title>
-    <meta name="description" content="Senior Data Engineer especializado en GCP, BigQuery, Airflow, dbt y pipelines de datos a gran escala.">
+    <title>Yanzes Caro Patiño | Data Engineer</title>
+    <meta name="description" content="Data Engineer especializado en GCP, BigQuery, Airflow, dbt y pipelines de datos a gran escala.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -13,17 +13,23 @@
 <body>
 
     <!-- NAVIGATION -->
+    <!-- NAVIGATION -->
     <nav class="navbar" id="navbar">
         <div class="nav-container">
-            <a href="#home" class="logo">YC<span>.</span></a>
+            <a href="#home" class="logo">YANCO DEV</a>
             
             <div class="nav-controls">
-                <!-- Language Toggle -->
-                <button class="lang-toggle" id="langToggle" aria-label="Cambiar idioma">
-                    <span class="lang-option active" data-lang="es">ES</span>
-                    <span class="lang-divider">/</span>
-                    <span class="lang-option" data-lang="en">EN</span>
-                </button>
+                <!-- Language Toggle (Spanish / English completo) -->
+                <div class="lang-toggle" id="langToggle">
+                    <button class="lang-btn" data-lang="es">
+                        <span class="lang-flag">🇨🇴</span>
+                        <span class="lang-name">Español</span>
+                    </button>
+                    <button class="lang-btn active" data-lang="en">
+                        <span class="lang-flag">🇺🇸</span>
+                        <span class="lang-name">English</span>
+                    </button>
+                </div>
 
                 <!-- Theme Toggle -->
                 <button class="theme-toggle" id="themeToggle" aria-label="Cambiar tema">
@@ -44,12 +50,12 @@
                 </button>
 
                 <ul class="nav-menu" id="navMenu">
-                    <li><a href="#home" class="nav-link" data-i18n="nav-home">Inicio</a></li>
-                    <li><a href="#about" class="nav-link" data-i18n="nav-about">Sobre Mí</a></li>
-                    <li><a href="#skills" class="nav-link" data-i18n="nav-skills">Habilidades</a></li>
-                    <li><a href="#experience" class="nav-link" data-i18n="nav-experience">Experiencia</a></li>
-                    <li><a href="#education" class="nav-link" data-i18n="nav-education">Educación</a></li>
-                    <li><a href="#contact" class="nav-link" data-i18n="nav-contact">Contacto</a></li>
+                    <li><a href="#home" class="nav-link" data-i18n="nav-home">Home</a></li>
+                    <li><a href="#about" class="nav-link" data-i18n="nav-about">About Me</a></li>
+                    <li><a href="#skills" class="nav-link" data-i18n="nav-skills">Skills</a></li>
+                    <li><a href="#experience" class="nav-link" data-i18n="nav-experience">Experience</a></li>
+                    <li><a href="#education" class="nav-link" data-i18n="nav-education">Education</a></li>
+                    <li><a href="#contact" class="nav-link" data-i18n="nav-contact">Contact</a></li>
                 </ul>
             </div>
 
@@ -60,6 +66,7 @@
             </button>
         </div>
     </nav>
+
 
     <!-- HERO -->
     <section class="hero" id="home">
@@ -106,7 +113,7 @@
                         <span class="code-line"><span class="code-keyword">class</span> <span class="code-function">DataEngineer</span>:</span>
                         <span class="code-line">    <span class="code-keyword">def</span> <span class="code-function">__init__</span>(self):</span>
                         <span class="code-line">        self.name = <span class="code-string">"Yanzes Caro"</span></span>
-                        <span class="code-line">        self.role = <span class="code-string">"Senior Data Engineer"</span></span>
+                        <span class="code-line">        self.role = <span class="code-string">"Data Engineer"</span></span>
                         <span class="code-line">        self.location = <span class="code-string">"Bogotá, CO"</span></span>
                         <span class="code-line">        self.cloud = [<span class="code-string">"GCP"</span>, <span class="code-string">"AWS"</span>, <span class="code-string">"Azure"</span>]</span>
                         <span class="code-line">&nbsp;</span>
@@ -175,7 +182,7 @@
                             </svg>
                         </div>
                         <h4 data-i18n="highlight-1-title">Cloud & Data Warehouse</h4>
-                        <p data-i18n="highlight-1-desc">Arquitecturas escalables en GCP, AWS y Azure. Especialista en BigQuery y Dataflow.</p>
+                        <p data-i18n="highlight-1-desc">Arquitecturas escalables en GCP, AWS y Azure. BigQuery y Dataflow.</p>
                     </div>
                     <div class="highlight-card reveal">
                         <div class="icon-large">
