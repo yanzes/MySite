@@ -1,5 +1,5 @@
 // ==========================================
-// YANZES CARO PORTFOLIO - JAVASCRIPT
+// YANZES CARO PORTFOLIO - JAVASCRIPT (v4 FINAL)
 // ==========================================
 
 // ===== TRANSLATIONS =====
@@ -244,12 +244,12 @@ const TRANSLATIONS = {
     }
 };
 
+// ===== LANGUAGE MANAGER =====
 let currentLang = localStorage.getItem('lang') || 'es';
 
 function setLanguage(lang) {
     currentLang = lang;
     localStorage.setItem('lang', lang);
-    
     document.documentElement.lang = lang;
     
     // Update text content
@@ -274,7 +274,7 @@ function setLanguage(lang) {
     });
 }
 
-// ===== THEME TOGGLE =====
+// ===== THEME MANAGER =====
 let currentTheme = localStorage.getItem('theme') || 'dark';
 
 function setTheme(theme) {
@@ -283,24 +283,53 @@ function setTheme(theme) {
     document.documentElement.setAttribute('data-theme', theme);
 }
 
+// Apply saved theme on load
 setTheme(currentTheme);
 
 // ===== LANGUAGE TOGGLE BUTTON =====
 const langToggle = document.getElementById('langToggle');
-langToggle.addEventListener('click', () => {
-    setLanguage(currentLang === 'es' ? 'en' : 'es');
-});
+if (langToggle) {
+    langToggle.addEventListener('click', () => {
+        setLanguage(currentLang === 'es' ? 'en' : 'es');
+    });
+}
 
 // ===== THEME TOGGLE BUTTON =====
 const themeToggle = document.getElementById('themeToggle');
-themeToggle.addEventListener('click', () => {
-    setTheme(currentTheme === 'dark' ? 'light' : 'dark');
-});
+if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
+        setTheme(currentTheme === 'dark' ? 'light' : 'dark');
+    });
+}
 
 // Initialize language
 setLanguage(currentLang);
 
-// ===== TYPING EFFECT =====
+// ===== WHATSAPP LINKS SETUP (DEFINIDA PRIMERO) =====
+function setupWhatsappLink(elementId) {
+    const el = document.getElementById(elementId);
+    if (!el) return;
+    
+    const trySetup = () => {
+        if (window.PORTFOLIO_CONFIG && window.PORTFOLIO_CONFIG.whatsappNumber) {
+            const { whatsappNumber, whatsappMessage } = window.PORTFOLIO_CONFIG;
+            const encodedMessage = encodeURIComponent(whatsappMessage);
+            el.href = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+            el.target = '_blank';
+            el.rel = 'noopener noreferrer';
+            console.log(`✅ WhatsApp link configured for #${elementId}`);
+        } else {
+            setTimeout(trySetup, 100);
+        }
+    };
+    trySetup();
+}
+
+// Configurar ambos botones de WhatsApp
+setupWhatsappLink('whatsappBtn');
+setupWhatsappLink('ctaWhatsapp');
+
+// ===== TYPING EFFECT (HERO) =====
 const typingElement = document.getElementById('typing');
 const phrases = [
     'Senior Data Engineer',
@@ -314,6 +343,7 @@ let charIndex = 0;
 let isDeleting = false;
 
 function typeEffect() {
+    if (!typingElement) return;
     const currentPhrase = phrases[phraseIndex];
     
     if (isDeleting) {
@@ -391,25 +421,29 @@ if (ctaTypewriter) {
 
 // ===== NAVBAR SCROLL =====
 const navbar = document.getElementById('navbar');
-window.addEventListener('scroll', () => {
-    navbar.classList.toggle('scrolled', window.scrollY > 50);
-});
+if (navbar) {
+    window.addEventListener('scroll', () => {
+        navbar.classList.toggle('scrolled', window.scrollY > 50);
+    });
+}
 
 // ===== HAMBURGER MENU =====
 const hamburger = document.getElementById('hamburger');
 const navMenu = document.getElementById('navMenu');
 
-hamburger.addEventListener('click', () => {
-    hamburger.classList.toggle('active');
-    navMenu.classList.toggle('active');
-});
-
-document.querySelectorAll('.nav-link').forEach(link => {
-    link.addEventListener('click', () => {
-        hamburger.classList.remove('active');
-        navMenu.classList.remove('active');
+if (hamburger && navMenu) {
+    hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle('active');
+        navMenu.classList.toggle('active');
     });
-});
+
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', () => {
+            hamburger.classList.remove('active');
+            navMenu.classList.remove('active');
+        });
+    });
+}
 
 // ===== COUNTER ANIMATION =====
 const counters = document.querySelectorAll('.stat-number');
@@ -432,11 +466,11 @@ const animateCounter = (el) => {
     update();
 };
 
-// ===== REVEAL ON SCROLL (VERSIÓN CORREGIDA) =====
+// ===== REVEAL ON SCROLL =====
 const reveals = document.querySelectorAll('.reveal');
 let countersAnimated = false;
 
-const observer = new IntersectionObserver((entries) => {
+const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
             entry.target.classList.add('active');
@@ -444,34 +478,28 @@ const observer = new IntersectionObserver((entries) => {
     });
 }, { threshold: 0.15 });
 
-reveals.forEach(el => observer.observe(el));
+reveals.forEach(el => revealObserver.observe(el));
 
-// ===== COUNTER ANIMATION (VERSIÓN CORREGIDA) =====
-// Observer separado SOLO para los contadores del hero
+// Counter observer separado
 const heroStats = document.querySelector('.hero-stats');
-
 if (heroStats) {
     const counterObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting && !countersAnimated) {
                 countersAnimated = true;
                 counters.forEach(animateCounter);
-                counterObserver.unobserve(entry.target); // Dejar de observar
+                counterObserver.unobserve(entry.target);
             }
         });
-    }, { threshold: 0.3 }); // 30% visible para disparar
+    }, { threshold: 0.3 });
 
     counterObserver.observe(heroStats);
 }
 
-
-setupWhatsappLink('whatsappBtn');
-setupWhatsappLink('ctaWhatsapp');
-
 // ===== CONTACT FORM =====
 const contactForm = document.getElementById('contactForm');
 
-if (contactForm && window.PORTFOLIO_CONFIG) {
+if (contactForm) {
     contactForm.addEventListener('submit', (e) => {
         e.preventDefault();
         
@@ -480,7 +508,9 @@ if (contactForm && window.PORTFOLIO_CONFIG) {
         const subject = document.getElementById('subject').value;
         const message = document.getElementById('message').value;
         
-        const recipientEmail = window.PORTFOLIO_CONFIG.email;
+        // Usar el email de config si está disponible
+        const recipientEmail = (window.PORTFOLIO_CONFIG && window.PORTFOLIO_CONFIG.email) 
+            || 'yanzes01@gmail.com';
         
         const mailtoLink = `mailto:${recipientEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(
             `Hola Yanzes,\n\nMi nombre es ${name}\nMi email: ${email}\n\n${message}\n\n---\nEnviado desde tu portafolio web`
@@ -491,12 +521,20 @@ if (contactForm && window.PORTFOLIO_CONFIG) {
     });
 }
 
-// ===== SMOOTH SCROLL =====
+// ===== SMOOTH SCROLL (NO INTERCEPTA WHATSAPP) =====
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
-        if (this.id === 'ctaWhatsapp' || this.id === 'whatsappBtn') return;
+        // NO prevenir default si es un enlace de WhatsApp
+        const id = this.id;
+        if (id === 'ctaWhatsapp' || id === 'whatsappBtn') {
+            return; // Dejar que el href funcione normal
+        }
+        
+        const href = this.getAttribute('href');
+        if (!href || href === '#' || href === '') return;
+        
         e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
+        const target = document.querySelector(href);
         if (target) {
             target.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
@@ -505,83 +543,87 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 
 // ===== PARTICLES BACKGROUND =====
 const canvas = document.getElementById('particles-canvas');
-const ctx = canvas.getContext('2d');
-let particles = [];
+if (canvas) {
+    const ctx = canvas.getContext('2d');
+    let particles = [];
 
-function resizeCanvas() {
-    canvas.width = canvas.offsetWidth;
-    canvas.height = canvas.offsetHeight;
-}
-resizeCanvas();
-window.addEventListener('resize', resizeCanvas);
+    function resizeCanvas() {
+        canvas.width = canvas.offsetWidth;
+        canvas.height = canvas.offsetHeight;
+    }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
 
-class Particle {
-    constructor() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
-        this.size = Math.random() * 2 + 0.5;
-        this.speedX = (Math.random() - 0.5) * 0.5;
-        this.speedY = (Math.random() - 0.5) * 0.5;
-        this.opacity = Math.random() * 0.5 + 0.2;
+    class Particle {
+        constructor() {
+            this.x = Math.random() * canvas.width;
+            this.y = Math.random() * canvas.height;
+            this.size = Math.random() * 2 + 0.5;
+            this.speedX = (Math.random() - 0.5) * 0.5;
+            this.speedY = (Math.random() - 0.5) * 0.5;
+            this.opacity = Math.random() * 0.5 + 0.2;
+        }
+
+        update() {
+            this.x += this.speedX;
+            this.y += this.speedY;
+
+            if (this.x > canvas.width) this.x = 0;
+            if (this.x < 0) this.x = canvas.width;
+            if (this.y > canvas.height) this.y = 0;
+            if (this.y < 0) this.y = canvas.height;
+        }
+
+        draw() {
+            ctx.fillStyle = `rgba(0, 212, 255, ${this.opacity})`;
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx.fill();
+        }
     }
 
-    update() {
-        this.x += this.speedX;
-        this.y += this.speedY;
-
-        if (this.x > canvas.width) this.x = 0;
-        if (this.x < 0) this.x = canvas.width;
-        if (this.y > canvas.height) this.y = 0;
-        if (this.y < 0) this.y = canvas.height;
+    function initParticles() {
+        const count = Math.min(80, Math.floor((canvas.width * canvas.height) / 15000));
+        particles = [];
+        for (let i = 0; i < count; i++) {
+            particles.push(new Particle());
+        }
     }
 
-    draw() {
-        ctx.fillStyle = `rgba(0, 212, 255, ${this.opacity})`;
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fill();
-    }
-}
+    function connectParticles() {
+        for (let i = 0; i < particles.length; i++) {
+            for (let j = i + 1; j < particles.length; j++) {
+                const dx = particles[i].x - particles[j].x;
+                const dy = particles[i].y - particles[j].y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
 
-function initParticles() {
-    const count = Math.min(80, Math.floor((canvas.width * canvas.height) / 15000));
-    particles = [];
-    for (let i = 0; i < count; i++) {
-        particles.push(new Particle());
-    }
-}
-
-function connectParticles() {
-    for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-            const dx = particles[i].x - particles[j].x;
-            const dy = particles[i].y - particles[j].y;
-            const distance = Math.sqrt(dx * dx + dy * dy);
-
-            if (distance < 120) {
-                ctx.strokeStyle = `rgba(0, 212, 255, ${0.1 * (1 - distance / 120)})`;
-                ctx.lineWidth = 0.5;
-                ctx.beginPath();
-                ctx.moveTo(particles[i].x, particles[i].y);
-                ctx.lineTo(particles[j].x, particles[j].y);
-                ctx.stroke();
+                if (distance < 120) {
+                    ctx.strokeStyle = `rgba(0, 212, 255, ${0.1 * (1 - distance / 120)})`;
+                    ctx.lineWidth = 0.5;
+                    ctx.beginPath();
+                    ctx.moveTo(particles[i].x, particles[i].y);
+                    ctx.lineTo(particles[j].x, particles[j].y);
+                    ctx.stroke();
+                }
             }
         }
     }
+
+    function animateParticles() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach(p => {
+            p.update();
+            p.draw();
+        });
+        connectParticles();
+        requestAnimationFrame(animateParticles);
+    }
+
+    initParticles();
+    animateParticles();
 }
 
-function animateParticles() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    particles.forEach(p => {
-        p.update();
-        p.draw();
-    });
-    connectParticles();
-    requestAnimationFrame(animateParticles);
-}
-
-initParticles();
-animateParticles();
-
+// ===== CONSOLE MESSAGE =====
 console.log('%c¡Hola! 👋', 'color: #00d4ff; font-size: 24px; font-weight: bold;');
 console.log('%cSoy Yanzes Caro - Senior Data Engineer', 'color: #7c3aed; font-size: 16px;');
+console.log('%cPortfolio v4 - Multi-language & Theme Toggle', 'color: #94a3b8; font-size: 14px;');
